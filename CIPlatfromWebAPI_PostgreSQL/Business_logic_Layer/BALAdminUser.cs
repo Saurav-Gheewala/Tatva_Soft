@@ -25,9 +25,6 @@ namespace Business_logic_Layer
         {
             return await _dalAdminUser.DeleteUserAndUserDetailAsync(userId);
         }
-        public string Update(User user)
-        {
-            return _dalAdminUser.UpdateUser(user);
-        }
+
     }
 }

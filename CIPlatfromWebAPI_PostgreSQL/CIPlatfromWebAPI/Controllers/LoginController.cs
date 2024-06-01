@@ -1,4 +1,5 @@
 ﻿using Business_logic_Layer;
+using Data_Access_Layer;
 using Data_Access_Layer.Repository.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,23 @@ namespace Web_API.Controllers
             try
             {
                 result.Data = _balLogin.Register(user);
+                result.Result = ResponseStatus.Success;
+            }
+            catch (Exception ex)
+            {
+                result.Result = ResponseStatus.Error;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+        [HttpPut]
+        [Route("UpdateUser")]
+        public ResponseResult UpdateUser(User user)
+        {
+            var result = new ResponseResult();
+            try
+            {
+                result.Data = _balLogin.Update(user);
                 result.Result = ResponseStatus.Success;
             }
             catch (Exception ex)

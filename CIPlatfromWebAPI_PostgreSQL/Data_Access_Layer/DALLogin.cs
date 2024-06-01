@@ -1,5 +1,6 @@
 ﻿using Data_Access_Layer.Repository;
 using Data_Access_Layer.Repository.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace Data_Access_Layer
@@ -128,7 +129,49 @@ namespace Data_Access_Layer
             }
             return result;
         }
-       
 
+        public async Task<String> UpdateUserDetails(User user)
+        {
+            try
+            {
+                var existedUser = await _cIDbContext.User.Where(u => u.Id == user.Id && !u.IsDeleted).FirstOrDefaultAsync();
+                if (existedUser != null)
+                {
+                    existedUser.FirstName = user.FirstName;
+                    existedUser.LastName = user.LastName;
+                    existedUser.PhoneNumber = user.PhoneNumber;
+                    existedUser.EmailAddress = user.EmailAddress;
+                    existedUser.Password = user.Password;
+                    existedUser.UserType = user.UserType;
+                    existedUser.ModifiedDate = DateTime.UtcNow;
+                    existedUser.UserType = "user";
+                    await _cIDbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception("user with given id doesnt exist or deleted");
+                }
+                var existedUserDetail = await _cIDbContext.UserDetail.Where(ud => ud.UserId == user.Id && !ud.IsDeleted).FirstOrDefaultAsync();
+                if (existedUserDetail != null)
+                {
+                    existedUserDetail.FirstName = user.FirstName;
+                    existedUserDetail.LastName = user.LastName;
+                    existedUserDetail.PhoneNumber = user.PhoneNumber;
+                    existedUserDetail.EmailAddress = user.EmailAddress;
+                    existedUserDetail.Name = user.FirstName;
+                    existedUserDetail.Surname = user.LastName;
+                    await _cIDbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new Exception("user with given id doesnt exist or deleted");
+                }
+                return "User Updated Successfully";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -62,7 +62,10 @@ namespace Business_logic_Layer
         {
             return _dalLogin.Register(user);
         }
-
+        public async Task<String> Update(User user)
+        {
+            return await _dalLogin.UpdateUserDetails(user);
+        }
 
     }
 }

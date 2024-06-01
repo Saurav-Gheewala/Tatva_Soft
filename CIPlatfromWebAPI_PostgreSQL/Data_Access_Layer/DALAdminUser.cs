@@ -91,51 +91,6 @@ namespace Data_Access_Layer
                 throw ex;
             }
         }
-        public string UpdateUser(User user)
-        {
-            string result = string.Empty;
-            try
-            {
-                var existingUser = _cIDbContext.User.FirstOrDefault(u => u.EmailAddress == user.EmailAddress && !u.IsDeleted);
-                if (existingUser != null)
-                {
-                    existingUser.FirstName = user.FirstName;
-                    existingUser.LastName = user.LastName;
-                    existingUser.PhoneNumber = user.PhoneNumber;
-                    existingUser.Password = user.Password;
-                    existingUser.UserType = user.UserType;
-                    existingUser.ModifiedDate = DateTime.UtcNow;
-
-                    _cIDbContext.User.Update(existingUser);
-                    _cIDbContext.SaveChanges();
-
-                    var existingUserDetail = _cIDbContext.UserDetail.FirstOrDefault(ud => ud.UserId == existingUser.Id);
-                    if (existingUserDetail != null)
-                    {
-                        existingUserDetail.FirstName = user.FirstName;
-                        existingUserDetail.LastName = user.LastName;
-                        existingUserDetail.PhoneNumber = user.PhoneNumber;
-                        existingUserDetail.EmailAddress = user.EmailAddress;
-                        existingUserDetail.UserType = user.UserType;
-                        existingUserDetail.Name = user.FirstName;
-                        existingUserDetail.Surname = user.LastName;
-
-                        _cIDbContext.UserDetail.Update(existingUserDetail);
-                        _cIDbContext.SaveChanges();
-                    }
-
-                    result = "User Updated Successfully";
-                }
-                else
-                {
-                    throw new Exception("User does not exist.");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            return result;
-        }
+        
     }
 }

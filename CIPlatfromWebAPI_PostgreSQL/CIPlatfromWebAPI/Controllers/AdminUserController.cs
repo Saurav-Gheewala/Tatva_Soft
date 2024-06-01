@@ -45,23 +45,7 @@ namespace Web_API.Controllers
                 return StatusCode(500, new ResponseResult { Result = ResponseStatus.Error, Message = ex.Message });
             }
         }
-        [HttpPut]
-        [Route("Update")]
-        public ResponseResult UpdateUser(User user)
-        {
-            var result = new ResponseResult();
-            try
-            {
-                result.Data = _balAdminUser.Update(user);
-                result.Result = ResponseStatus.Success;
-            }
-            catch (Exception ex)
-            {
-                result.Result = ResponseStatus.Error;
-                result.Message = ex.Message;
-            }
-            return result;
-        }
+
 
     }
 }
